@@ -1,0 +1,42 @@
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/DarshanAguru/ecommerceMicroserviceConfigs.git
+          refresh-rate: 1
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${random.value}
+
+logging:
+  level:
+    org:
+      springframework: DEBUG
+
+
+
+server:
+  port: 8888
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+
+
+
+
+
