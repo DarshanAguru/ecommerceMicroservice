@@ -38,6 +38,18 @@ public class JwtUtil {
             return false;
         }
     }
+
+    public String getUserId(String token)
+    {
+        try {
+            Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+            return claims.getSubject();
+        }catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
     public boolean validate(String token)
     {
 
