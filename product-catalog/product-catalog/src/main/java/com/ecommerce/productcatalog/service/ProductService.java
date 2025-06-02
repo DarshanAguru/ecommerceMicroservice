@@ -11,21 +11,33 @@ import java.util.*;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
-    public Product saveProduct(Product product)
+    public Product saveProduct(Product product, String userId)
     {
+        UUID uid = UUID.fromString(userId);
+        product.setUserId(uid);
         return productRepository.save(product);
     }
-    public List<Product> getAllProducts()
+    public List<Product> getAllProducts(String userId)
     {
-        return productRepository.findAll();
+        UUID uid = UUID.fromString(userId);
+
+        return productRepository.findAllByUserId(uid);
     }
+
+    public Product getProductByIdAndUserId(Long id, String userId)
+    {
+        UUID uid = UUID.fromString(userId);
+        return productRepository.findByIdAndUserId(id, uid).orElse(null);
+    }
+
     public Product getProductById(Long id)
     {
         return productRepository.findById(id).orElse(null);
     }
 
-    public Product updateProduct(Long id, Map<String, Object> updates) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Product not found"));
+    public Product updateProduct(Long id, Map<String, Object> updates, String userId) {
+        UUID uid = UUID.fromString(userId);
+        Product product = productRepository.findByIdAndUserId(id, uid).orElseThrow(() -> new NoSuchElementException("Product not found"));
 
         if (updates.containsKey("name")) product.setName((String) updates.get("name"));
         if (updates.containsKey("description")) product.setDescription((String) updates.get("description"));
@@ -34,9 +46,10 @@ public class ProductService {
 
         return productRepository.save(product);
     }
-    public boolean deleteProduct(Long id)
+    public boolean deleteProduct(Long id, String userId)
     {
-        if(productRepository.existsById(id))
+        UUID uid = UUID.fromString(userId);
+        if(productRepository.existsByIdAndUserId(id, uid))
         {
             productRepository.deleteById(id);
             return true;

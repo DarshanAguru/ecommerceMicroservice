@@ -64,10 +64,25 @@ public class OrderController {
             return new ResponseEntity<>("Failed to fetch orders", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/getOrder/{id}")
+    public ResponseEntity<?> getOrderById(@PathVariable Long id) {
+        try {
+            Optional<Order> order = service.getOrderById(id);
+            if (order.isPresent()) {
+                return new ResponseEntity<>(order.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Order not found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error fetching order", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable Long id, @RequestHeader("X-User-Id") String userId) {
         try {
-            Optional<Order> order = service.getOrderById(id, userId);
+            Optional<Order> order = service.getOrderByIdAndUserId(id, userId);
             if (order.isPresent()) {
                 return new ResponseEntity<>(order.get(), HttpStatus.OK);
             } else {

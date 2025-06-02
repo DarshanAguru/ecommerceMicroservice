@@ -51,7 +51,12 @@ public class OrderService {
         UUID uId = UUID.fromString(userId);
         return orderRepository.findAllByUserId(uId);
     }
-    public Optional<Order> getOrderById(Long id, String userId) {
+
+    public Optional<Order> getOrderById(Long id) {
+        return orderRepository.findById(id);
+    }
+
+    public Optional<Order> getOrderByIdAndUserId(Long id, String userId) {
         UUID uId = UUID.fromString(userId);
         return orderRepository.findByIdAndUserId(id,uId);
     }

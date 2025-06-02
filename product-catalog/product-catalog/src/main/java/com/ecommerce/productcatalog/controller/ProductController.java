@@ -15,9 +15,9 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addProduct(@RequestBody Product product) {
+    public ResponseEntity<?> addProduct(@RequestBody Product product, @RequestHeader("X-User-Id") String userId) {
         try {
-            Product saved = productService.saveProduct(product);
+            Product saved = productService.saveProduct(product, userId);
             return ResponseEntity.status(HttpStatus.CREATED).body(saved);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong while adding product.");
@@ -26,17 +26,17 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllProducts() {
+    public ResponseEntity<?> getAllProducts(@RequestHeader("X-User-Id") String userId) {
         try {
-            List<Product> products = productService.getAllProducts();
+            List<Product> products = productService.getAllProducts(userId);
             return ResponseEntity.ok(products);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to fetch products.");
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable Long id) {
+    @GetMapping("/getProduct/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable("id") Long id) {
         try {
             Product product = productService.getProductById(id);
             if (product != null) {
@@ -49,10 +49,25 @@ public class ProductController {
         }
 
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductByIdAndUserId(@PathVariable Long id, @RequestHeader("X-User-Id") String userId) {
         try {
-            Product updated = productService.updateProduct(id, updates);
+            Product product = productService.getProductByIdAndUserId(id, userId);
+            if (product != null) {
+                return ResponseEntity.ok(product);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error while fetching product.");
+        }
+
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody Map<String, Object> updates, @RequestHeader("X-User-Id") String userId) {
+        try {
+            Product updated = productService.updateProduct(id, updates, userId);
             return new ResponseEntity<>(updated, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -62,9 +77,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id, @RequestHeader("X-User-Id") String userId) {
         try {
-            boolean isDeleted = productService.deleteProduct(id);
+            boolean isDeleted = productService.deleteProduct(id, userId);
             if (isDeleted) {
                 return ResponseEntity.ok("Product Deleted Successfully");
             } else {
