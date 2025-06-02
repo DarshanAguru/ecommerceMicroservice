@@ -42,7 +42,7 @@ public class TokenService {
 
     }
 
-    public String createAndSaveToken(UUID id)
+    public String[] createAndSaveToken(UUID id, String role)
     {
         try {
             String userId = String.valueOf(id);
@@ -54,7 +54,7 @@ public class TokenService {
                 if(validate(tokn))
                 {
 
-                    return tokn;
+                    return new String[]{tokn,"conflict"};
                 }
                 else{
 
@@ -65,8 +65,9 @@ public class TokenService {
             Token token = new Token();
             token.setToken(tokenValue);
             token.setUserId(userId);
+            token.setRole(role);
             tokensRepo.save(token);
-            return tokenValue;
+            return new String[]{tokenValue,"ok"};
         }catch (Exception e)
         {
             System.out.println(e.getMessage());

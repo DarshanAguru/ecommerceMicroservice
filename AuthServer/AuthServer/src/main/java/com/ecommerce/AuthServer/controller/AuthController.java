@@ -13,8 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
-@CrossOrigin("*")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     @Autowired
@@ -28,9 +27,14 @@ public class AuthController {
             cred.setEmail(credView.getEmail());
             cred.setPhone(credView.getPhone());
             cred.setPassword(credView.getPassword());
+            cred.setRole(credView.getRole());
             String msg = authService.signupService(cred);
             if(msg != null)
             {
+                if(msg.equalsIgnoreCase("Already signed Up!"))
+                {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body(msg);
+                }
                 return ResponseEntity.status(HttpStatus.CREATED).body(msg);
 
             }
@@ -57,10 +61,14 @@ public class AuthController {
             cred.setEmail(credView.getEmail());
             cred.setPassword(credView.getPassword());
             cred.setPhone(credView.getPhone());
-            String token = authService.loginService(cred);
+            String[] token = authService.loginService(cred);
             if(token != null)
             {
-                response.addHeader("Authorization", "Bearer "+token);
+                response.addHeader("Authorization", "Bearer "+token[0]);
+                if(token[1].equalsIgnoreCase("conflict"))
+                {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).build();
+                }
                 return ResponseEntity.status(HttpStatus.OK).build();
 
             }
@@ -74,20 +82,7 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/validate")
-    public ResponseEntity<String> validateToken(@RequestHeader("Authorization") String token)
-    {
-        String msg = null;
-        if(token != null)
-        {
-        msg = authService.validateTokenService(token.substring(7));
-        }
-        if(msg == null)
-        {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(msg);
-    }
+
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestHeader("Authorization") String token)

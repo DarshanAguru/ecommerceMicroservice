@@ -24,6 +24,9 @@ public class Token {
     @Column(name ="token", length = 200, nullable = false)
     private String token;
 
+    @Column(name="role", length=20)
+    private String  role;
+
 
 
 }

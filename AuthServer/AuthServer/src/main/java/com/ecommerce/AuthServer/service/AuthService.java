@@ -46,7 +46,7 @@ public class AuthService {
 
     }
 
-    public String loginService(Credential cred) {
+    public String[] loginService(Credential cred) {
         Credential original = null;
         if (cred.getEmail() == "") {
             original = credentialRepo.findByPhone(cred.getPhone()).stream().findFirst().get();
@@ -60,7 +60,7 @@ public class AuthService {
 
         if(original != null && passwordEncoder.matches(cred.getPassword(),original.getPassword()))
         {
-                String tokenValue = tokenService.createAndSaveToken(original.getId());
+                String[] tokenValue = tokenService.createAndSaveToken(original.getId(), original.getRole());
                 return tokenValue;
         }
 

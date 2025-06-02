@@ -10,4 +10,6 @@ public class CredentialView {
     private String phone;
     private String password;
 
+    private String role;
+
 }

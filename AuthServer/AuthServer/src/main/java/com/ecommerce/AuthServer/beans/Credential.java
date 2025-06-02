@@ -25,4 +25,7 @@ public class Credential {
     @Column(name = "password" , length = 300)
     private String password;
 
+    @Column(name="role", length = 20)
+    private String role;
+
 }
