@@ -2,19 +2,12 @@ package com.ecommerce.AuthServer.service;
 
 
 import com.ecommerce.AuthServer.beans.Credential;
-import com.ecommerce.AuthServer.beans.Token;
 import com.ecommerce.AuthServer.dao.CredentialsRepoJPA;
-import com.netflix.discovery.converters.Auto;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+
 
 @Service
 public class AuthService {
