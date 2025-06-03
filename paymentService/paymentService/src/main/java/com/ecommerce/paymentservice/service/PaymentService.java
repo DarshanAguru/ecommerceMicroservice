@@ -9,6 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +19,14 @@ public class PaymentService {
     private PaymentRepository paymentRepository;
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+
+    private final String TOPIC = "payment-event";
+
+
     public Payment generateBill(Long orderId)
     {
 
@@ -57,6 +66,8 @@ public class PaymentService {
         Payment p = paymentRepository.findByOrderId(orderId);
         p.setStatus("PAID");
         p.setPaymentMethod(method);
+        // kafka producer
+        kafkaTemplate.send(TOPIC, String.valueOf(orderId));
         return paymentRepository.save(p);
     }
     public Payment getPaymentByOrderId(Long orderId) {
