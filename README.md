@@ -55,9 +55,9 @@ Each folder is a standalone Spring Boot Maven project.
 ------------------------------------------------------------
 
 1. 📥 Clone Repositories
-
+```
 git clone https://github.com/DarshanAguru/ecommerceMicroservice.git
-
+```
 2. 🐘 Setup PostgreSQL
 
 - Install PostgreSQL and create necessary schemas.
@@ -69,23 +69,23 @@ git clone https://github.com/DarshanAguru/ecommerceMicroservice.git
 - Extract and set environment variable pointing to Kafka's bin folder
 - Add the "setupKafka.py" script to the Kafka root directory
 - In the Kafka root directory:
-
+```
 python setupKafka.py [topic-name]  # Only needed on first run
-
+```
 4. 🔍 Setup Zipkin
 
 - Download Zipkin JAR: https://zipkin.io/pages/quickstart
 - Run with:
-
+```
 java -jar zipkin.jar
-
+```
 Default Zipkin UI: http://localhost:9411/
 
 5. 🔧 Run Microservices
 
 - Open each folder (e.g., AuthServer, orderProcessing, etc.) in your preferred IDE
 - Run them as Spring Boot applications
-- Ensure Eureka (localhost:8761) and Config Server are running first
+- Ensure Eureka (http://localhost:8761) and Config Server are running first
 
 6. 🛠 Config Server Setup
 
@@ -130,6 +130,9 @@ This project is open for learning, collaboration, and enhancements.
 
 Darshan Aguru  
 GitHub: https://github.com/DarshanAguru  
+Devfolio: https://agurudarshan.tech
+
+
 
 
 
