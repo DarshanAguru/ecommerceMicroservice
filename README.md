@@ -14,7 +14,7 @@ This project is a complete eCommerce backend system designed using a microservic
 - 🧩 Modular Microservices: Each business function is a separate microservice
 - 📦 Service Discovery using Eureka
 - 🔄 Async Communication via Apache Kafka
-- 🔐 Authentication Server for securing endpoints using OAuth2/JWT
+- 🔐 Authentication Server for securing endpoints using JWT
 - 🔀 API Gateway to route and filter requests
 - ⚙️ Centralized Config via Spring Cloud Config Server
 - 🔍 Distributed Tracing via Zipkin
