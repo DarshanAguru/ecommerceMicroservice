@@ -24,15 +24,14 @@ This project is a complete eCommerce backend system designed using a microservic
 📁 Microservices Structure
 ------------------------------------------------------------
 
-.
-├── AsyncDataUpdateService
-├── AuthServer
-├── configServer
-├── Eureka
-├── gatewayServer
-├── orderProcessing
-├── paymentService
-├── product-catalog
+- AsyncDataUpdateService
+- AuthServer
+- configServer
+- Eureka
+- gatewayServer
+- orderProcessing
+- paymentService
+- product-catalog
 
 Each folder is a standalone Spring Boot Maven project.
 
