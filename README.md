@@ -91,7 +91,7 @@ Default Zipkin UI: http://localhost:9411/
 
 - The Config Server pulls from:
   https://github.com/DarshanAguru/ecommerceMicroserviceConfigs
-- Make sure this repo is public or provide Git credentials via config.
+  Its a public repo, feel free to clone it...
 
 ------------------------------------------------------------
 🔗 Service Dependencies
